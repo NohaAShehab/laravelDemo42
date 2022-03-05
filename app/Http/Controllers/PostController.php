@@ -16,6 +16,13 @@ class PostController extends Controller
 
         ];
 
+//        dd($posts);
+//        dump($posts);
+
         return view("posts.index", ["posts"=>$posts]);
+    }
+
+    function create(){
+        return view("posts.create");
     }
 }

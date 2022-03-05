@@ -21,36 +21,33 @@
         </div>
     </div>
 </nav>
-    <div class="container">
-        <div class="text-center">
-            <button class="btn btn-success"> New Post </button>
+<div class="container">
+    <form class="form-control" >
+        <div class="mb-3">
+            <label  class="form-label">Title</label>
+            <input type="text" class="form-control" aria-describedby="emailHelp">
         </div>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">Title</th>
-                <th scope="col">Desc</th>
-                <th scope="col">User id</th>
-                <th scope="col">View</th>
-            </tr>
-            </thead>
-            <tbody>
-{{--            @dump($posts)--}}
-            @foreach($posts as $post)
-            <tr>
-                <th scope="row"> {{$post["id"]}}</th>
-                <td>{{$post["title"]}}</td>
-                <td>{{$post["description"]}}</td>
-                <td>{{$post["user_id"]}}</td>
-                <td><button class="btn btn-info"> View </button></td>
-            </tr>
-            @endforeach
+        <div class="mb-3">
+            <label  class="form-label">Description</label>
+            <input type="text" class="form-control" >
+        </div>
+        <div class="mb-3">
+            <label  class="form-label">User</label>
+            <input type="text" class="form-control" >
+        </div>
 
-            </tbody>
-        </table>
+        <div class="mb-3 text-center">
+            <input type="submit" class="btn btn-success">
+        </div>
 
-    </div>
+
+
+    </form>
+
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
+
+
+
