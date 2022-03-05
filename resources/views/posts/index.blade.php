@@ -1,7 +1,7 @@
 @extends("layouts.app")
 @section("maincontent")
         <div class="text-center">
-            <button class="btn btn-success"> New Post </button>
+            <a class="btn btn-success" href="{{route("posts.create")}}"> New Post </a>
         </div>
         <table class="table table-hover">
             <thead>
@@ -21,7 +21,9 @@
                 <td>{{$post["title"]}}</td>
                 <td>{{$post["description"]}}</td>
                 <td>{{$post["user_id"]}}</td>
-                <td><a class="btn btn-info" href="/posts/{{$post["id"]}}"> View </a></td>
+{{--                <td><a class="btn btn-info" href="/posts/{{$post["id"]}}"> View </a></td>--}}
+                <td><a class="btn btn-info" href="{{route("posts.show",$post["id"])}}"> View </a></td>
+
             </tr>
             @endforeach
 

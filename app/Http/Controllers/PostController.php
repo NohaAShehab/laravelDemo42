@@ -26,6 +26,20 @@ class PostController extends Controller
         return view("posts.create");
     }
 
+    function  store(){
+//        @dd($_REQUEST);
+        # use helper method request
+//        $request_data = request();
+//        dd($request_data);
+        $request_data = request()->all();  # array can see the request parameters in
+//        dd($request_data);
+//        return "Added";
+//        return redirect()->route("posts.index");
+//        from laravel 9
+        return to_route("posts.index");
+    }
+
+
     function show($post){
         return $post;
     }
