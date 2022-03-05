@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +39,10 @@ Route::get("/test", function (){
 
 ############################
 
+
+Route::get('/test',[TestController::class,"testaction" ]);
+
+Route::get('/users',[TestController::class,"getusers"]);
+
+Route::get('/posts',[PostController::class,"index"]);
 
