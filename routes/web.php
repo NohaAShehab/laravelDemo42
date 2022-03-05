@@ -48,6 +48,8 @@ Route::get('/users',[TestController::class,"getusers"]);
 //https://laravel.com/docs/9.x/controllers#resource-controllers
 Route::get('/posts',[PostController::class,"index"]);
 Route::get('/posts/create',[PostController::class,"create"]);
+Route::get('/posts/{post}',[PostController::class,"show"]);
+
 
 
 

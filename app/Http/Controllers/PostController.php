@@ -25,4 +25,8 @@ class PostController extends Controller
     function create(){
         return view("posts.create");
     }
+
+    function show($post){
+        return $post;
+    }
 }
