@@ -10,13 +10,6 @@ use App\Models\User;
 class PostController extends Controller
 {
     //
-    public  $posts= [
-        ["id"=>1, "title"=>"post 1", "description"=>"post1 desc", "user_id"=>1 ],
-        ["id"=>2, "title"=>"post 2", "description"=>"post2 desc", "user_id"=>2 ],
-        ["id"=>3, "title"=>"post 3", "description"=>"post3 desc", "user_id"=>3 ],
-        ["id"=>4, "title"=>"post 4", "description"=>"post4 desc", "user_id"=>4 ]
-
-    ];
     function index(){
 
         $posts= Post::paginate(5);
@@ -30,12 +23,14 @@ class PostController extends Controller
 
     function  store(){
         #mass assigmnet
-        $title= request("title");
-        $desc= request("description");
-//        Post::create(
-//            ["title"=>$title,
-//            "description"=>$desc]
-//        );
+        request()->validate([
+           "title"=>"required|min:5",
+            "description"=>'required|min:10'
+        ],
+        [
+            "title.required"=>"please provied title"
+        ]
+        );
 
         Post::create(request()->all());
         return to_route("posts.index");
@@ -43,15 +38,20 @@ class PostController extends Controller
 
 
     function show($post){
-//        $post= Post::find($post);  # object from model
-//        $post =Post::where("id",$post);  # collection =-- no need
-//        $post =Post::where("id",$post)->first();  # collection =-- no need
-
-        dd($post);
-
-        return $post;
+        $postdata = Post::findOrFail($post);
+        return view("posts.show",["post"=>$postdata]);
+    }
+    function edit($post){
+        $data = Post::find($post);
+        $users = User::all();
+        return view("posts.edit",["post"=>$data,"users"=>$users ]);
     }
 
+    function update($post){
+        $updated = Post::findOrFail($post);
+        $updated->update(request()->all());
+        return to_route("posts.index");
+    }
     function destroy($post){
         $deleted= Post::findOrFail($post);
         $deleted->delete();

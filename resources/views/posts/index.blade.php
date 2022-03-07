@@ -1,5 +1,6 @@
 @extends("layouts.app")
 @section("maincontent")
+
         <div class="text-center">
             <a class="btn btn-success" href="{{route("posts.create")}}"> New Post </a>
         </div>
@@ -11,6 +12,9 @@
                 <th scope="col">Desc</th>
                 <th scope="col">User id</th>
                 <th scope="col">View</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+
             </tr>
             </thead>
             <tbody>
@@ -26,15 +30,14 @@
 {{--                <td> {{$post->postCreater->name }}</td>--}}
 {{--                <td><a class="btn btn-info" href="/posts/{{$post["id"]}}"> View </a></td>--}}
                 <td><a class="btn btn-info" href="{{route("posts.show",$post["id"])}}"> View </a></td>
-
+                <td><a href="{{route("posts.edit",$post["id"])}}" class="btn btn-warning">Edit </a></td>
                 <td>
-                    <form action="{{route("posts.destroy",$post["id"])}}"
-                          method="post">
+                    <form action="{{route("posts.destroy",$post["id"])}}"  method="POST">
                         @csrf
                         @method('delete')
-                        <input type="submit" class="btn btn-danger" value="Delete">
+                        <input type="submit" value="delete"  class="btn btn-danger">
                     </form>
-
+                </td>
             </tr>
             @endforeach
 
