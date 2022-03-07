@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
-
+use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
@@ -47,9 +47,10 @@ class PostController extends Controller
         return view("posts.edit",["post"=>$data,"users"=>$users ]);
     }
 
-    function update($post){
+    function update(PostRequest $request, $post){
         $updated = Post::findOrFail($post);
-        $updated->update(request()->all());
+//        @dd($request);
+        $updated->update($request->all());
         return to_route("posts.index");
     }
     function destroy($post){

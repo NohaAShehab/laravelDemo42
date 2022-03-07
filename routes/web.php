@@ -48,7 +48,7 @@ Route::get('/users',[TestController::class,"getusers"]);
 //https://laravel.com/docs/9.x/controllers#resource-controllers
 Route::get('/posts',[PostController::class,"index"])->name("posts.index");
 Route::get('/posts/create',[PostController::class,"create"])->name("posts.create");
-Route::post('/posts',[PostController::class,"store"])->name("posts.store");
+Route::post('/posts',[PostController::class,"store"])->name("posts.store")->middleware("auth");
 
 Route::get('/posts/{post}',[PostController::class,"show"])->name("posts.show");
 Route::get("/posts/{post}/edit",[PostController::class,"edit"])->name("posts.edit");
@@ -64,3 +64,7 @@ Route::delete("/post/{post}",[PostController::class,"destroy"])->name("posts.des
 
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
