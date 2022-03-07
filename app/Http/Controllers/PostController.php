@@ -10,6 +10,7 @@ use App\Http\Requests\PostRequest;
 class PostController extends Controller
 {
     //
+
     function index(){
 
         $posts= Post::paginate(5);

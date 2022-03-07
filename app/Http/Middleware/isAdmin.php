@@ -16,6 +16,10 @@ class isAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        if(true){
+            dump("this is isadmin");
+            return $next($request);
+        }
+
     }
 }
