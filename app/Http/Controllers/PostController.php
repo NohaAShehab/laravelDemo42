@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
+
 
 class PostController extends Controller
 {
@@ -17,15 +19,13 @@ class PostController extends Controller
     ];
     function index(){
 
-        $posts= Post::all();
-//        dd($posts);
-//        dump($posts);
-//        dd($posts);
+        $posts= Post::paginate(5);
         return view("posts.index", ["posts"=>$posts]);
     }
 
     function create(){
-        return view("posts.create");
+        $users = User::all();
+        return view("posts.create",["users"=>$users]);
     }
 
     function  store(){
@@ -51,4 +51,12 @@ class PostController extends Controller
 
         return $post;
     }
+
+    function destroy($post){
+        $deleted= Post::findOrFail($post);
+        $deleted->delete();
+        return to_route("posts.index");
+    }
+
+
 }

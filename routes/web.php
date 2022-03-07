@@ -52,6 +52,7 @@ Route::post('/posts',[PostController::class,"store"])->name("posts.store");
 
 Route::get('/posts/{post}',[PostController::class,"show"])->name("posts.show");
 
+Route::delete('/posts/{post}',[PostController::class,"destroy"])->name("posts.destroy");
 
 
 
