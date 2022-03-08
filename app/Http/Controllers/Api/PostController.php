@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,8 @@ class PostController extends Controller
     public function index()
     {
         //
-        return Post::all();
+        $posts=  Post::all();
+        return PostResource::collection($posts);
     }
 
     /**
@@ -30,7 +32,7 @@ class PostController extends Controller
     {
         //
         $post=Post::create($request->all());
-        return $post;
+        return new PostResource($post);;
 
     }
 
@@ -43,7 +45,22 @@ class PostController extends Controller
     public function show(Post $post)
     {
         //
-        return $post;
+
+//        return $post;
+        /*
+         * here we send large data, may be represented with unsuitable form
+         * we neeed to transform it
+         * first solution is to define the it
+         * *****/
+//        return [
+//            "title"=>$post->title,
+//            "description"=>$post->description,
+//            "user"=>$post->user->name
+//        ];
+        return new PostResource($post);
+
+
+
     }
 
     /**
