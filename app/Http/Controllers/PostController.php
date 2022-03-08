@@ -2,63 +2,101 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
-    //
-
-    function index(){
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
         $posts= Post::paginate(5);
         return view("posts.index", ["posts"=>$posts]);
+
     }
 
-    function create(){
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
         $users = User::all();
         return view("posts.create",["users"=>$users]);
     }
 
-    function  store(){
-        #mass assigmnet
-        request()->validate([
-           "title"=>"required|min:5",
-            "description"=>'required|min:10'
-        ],
-        [
-            "title.required"=>"please provied title"
-        ]
-        );
-
-        Post::create(request()->all());
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(PostRequest $request)
+    {
+        //
+        Post::create($request->all());
         return to_route("posts.index");
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Post $post)
+    {
+        //
+        return view("posts.show",["post"=>$post]);
 
-    function show($post){
-        $postdata = Post::findOrFail($post);
-        return view("posts.show",["post"=>$postdata]);
     }
-    function edit($post){
-        $data = Post::find($post);
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Post $post)
+    {
         $users = User::all();
-        return view("posts.edit",["post"=>$data,"users"=>$users ]);
+        return view("posts.edit",["post"=>$post,"users"=>$users ]);
     }
 
-    function update(PostRequest $request, $post){
-        $updated = Post::findOrFail($post);
-//        @dd($request);
-        $updated->update($request->all());
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Post $post)
+    {
+        //
+        $this->authorize('update', $post);
+        $post->update($request->all());
         return to_route("posts.index");
     }
-    function destroy($post){
-        $deleted= Post::findOrFail($post);
-        $deleted->delete();
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Post $post)
+    {
+        //
+        $post->delete();
         return to_route("posts.index");
+
     }
-
-
 }
