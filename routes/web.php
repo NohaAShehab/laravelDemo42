@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\OldPostController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\EmailController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,3 +72,56 @@ Route::resource("posts",PostController::class);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('email', [EmailController::class,'sendEmail']);
+
+/*
+ *  lines related to connection
+ *
+ *
+ * *************/
+use Laravel\Socialite\Facades\Socialite;
+
+Route::get('/auth/redirect', function () {
+    # this will redirect me to github
+    return Socialite::driver('github')->redirect();
+})->name("loginwithgithub");
+
+Route::get('/auth/callback', function () {
+//    dd("we are in auth call back route");
+    $user = Socialite::driver('github')->user();
+    // $user->token
+    ### get token from github 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
+    ### that can be used in next application
+//    @dd($user);
+
+    ## till now the user is not authenticated
+//    @dd($user->email, $user->getNickname());
+    $githubUser = Socialite::driver('github')->user();
+//    dd($githubUser);
+    $user = User::where('email', $githubUser->email)->first();
+
+    if ($user) {
+        $user->update([
+            'github_token' => $githubUser->token,
+            'github_refresh_token' => $githubUser->refreshToken,
+        ]);
+    } else {
+        $user = User::create([
+            'name' => $githubUser->name ? $githubUser->name : $githubUser->nickname,
+            'email' => $githubUser->email,
+            'github_id' => $githubUser->id,
+            'github_token' => $githubUser->token,
+            'github_refresh_token' => $githubUser->refreshToken,
+            'password'=>$githubUser->email
+        ]);
+    }
+
+    Auth::login($user);
+
+    return redirect('/home');
+});
+
+Route::get("get-all-github-issues",function (){
+   ### some logic to ask github for info using this token
+});
